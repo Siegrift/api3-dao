@@ -18,6 +18,7 @@ const Agent = artifacts.require('Agent');
 contract('Api3Template', ([_, deployer, tokenAddress, authorized]) => { // eslint-disable-line no-unused-vars
   let api3Template, dao, acl, receipt1, api3Pool;
 
+  const API3_POOL_ADDRESS = '0xdF46e54aAadC1d55198A4a8b4674D7a4c927097A'.toLowerCase()
 
   const SUPPORT_1 = 80e16;
   const ACCEPTANCE_1 = 40e16;
@@ -32,12 +33,9 @@ contract('Api3Template', ([_, deployer, tokenAddress, authorized]) => { // eslin
   });
 
   before('create bare entity', async () => {
-    console.log('Here');
-    api3Pool = await Api3Pool.new(tokenAddress);
-    console.log('There');
+    api3Pool = Api3Pool.at(API3_POOL_ADDRESS);
     receipt1 = await api3Template.newInstance('api3template', (api3Pool.address), [SUPPORT_1, ACCEPTANCE_1, VOTING_DURATION_1], [SUPPORT_2, ACCEPTANCE_2, VOTING_DURATION_2], { from: deployer });
 
-    console.log('even here');
     dao = Kernel.at(getEventArgument(receipt1, 'DeployDao', 'dao'));
     acl = ACL.at(await dao.acl());
 
@@ -97,7 +95,14 @@ contract('Api3Template', ([_, deployer, tokenAddress, authorized]) => { // eslin
     await assertRole(acl, agentSecondary, { address: votingMain.address }, 'EXECUTE_ROLE', { address: votingSecondary.address });
     await assertRole(acl, agentSecondary, { address: votingMain.address }, 'RUN_SCRIPT_ROLE', { address: votingSecondary.address });
 
-    await api3Pool.setDaoApps(agentMain.address, agentSecondary.address, votingMain.address, votingSecondary.address);
+    console.log(JSON.stringify({
+      votingPrimary: votingMain.address,
+      votingSecondary: votingSecondary.address,
+      agentPrimary: agentMain.address,
+      agentSecondary: agentSecondary.address
+    }, null, 2))
+    // await api3Pool.setDaoApps(agentMain.address, agentSecondary.address, votingMain.address, votingSecondary.address);
+    console.log('Do not forget to call api3Pool.setDaoApps(agentMain.address, agentSecondary.address, votingMain.address, votingSecondary.address)!!!')
   })
 
 });
