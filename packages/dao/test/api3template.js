@@ -18,7 +18,7 @@ const Agent = artifacts.require('Agent');
 contract('Api3Template', ([_, deployer, tokenAddress, authorized]) => { // eslint-disable-line no-unused-vars
   let api3Template, dao, acl, receipt1, api3Pool;
 
-  const API3_POOL_ADDRESS = '0xdF46e54aAadC1d55198A4a8b4674D7a4c927097A'.toLowerCase()
+  const API3_POOL_ADDRESS = '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9'.toLowerCase()
 
   const SUPPORT_1 = 80e16;
   const ACCEPTANCE_1 = 40e16;

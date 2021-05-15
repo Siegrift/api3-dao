@@ -30,7 +30,8 @@
     "publish:rinkeby": "aragon apm publish major $(npm run deploy:rinkeby | tail -n 1) --environment rinkeby",
     "publish:ropsten": "aragon apm publish major $(npm run deploy:ropsten | tail -n 1) --environment ropsten",
     "publish:mainnet": "aragon apm publish major $(npm run deploy:mainnet | tail -n 1) --environment mainnet",
-    "deploy:localhost": "npm run test"
+    "no-compile:deploy:localhost": "truffle exec ./scripts/deploy.js --network rpc && truffle exec ./scripts/new-dao-instance.js --network rpc",
+    "no-compile:deploy:ropsten": "truffle exec ./scripts/deploy.js --network ropsten --ens 0x6afe2cacee211ea9179992f89dc61ff25c61e923 --dao-factory 0x233c587095d066bafe44b543a719c93ff16423f3 --mini-me-factory 0x1ce5621d386b2801f5600f1dbe29522805b8ac11 && truffle exec ./scripts/new-dao-instance.js --network ropsten"
   },
   "dependencies": {
     "@api3-dao/api3-voting": "^1.0.0",
